@@ -8,6 +8,7 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
+  args: ^2.4.2
   youtube_explode_dart: ^2.0.2
   # path: ^1.8.0
 
