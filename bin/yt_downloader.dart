@@ -9,6 +9,7 @@ void main(List<String> arguments) async{
     print("Something went wrong. Arguments could not be parsed. Please try again.");
     exit(0);
   }else{
-    await yt_downloader.downloadVideo(results['video']);
+    String id = yt_downloader.getVideoId(results['video']);
+    await yt_downloader.downloadVideo(id, results['output']);
   }
 }
