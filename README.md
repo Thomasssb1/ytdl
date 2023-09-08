@@ -10,6 +10,11 @@ To use this tool, you can call the command **ytdl** on your command line. Like s
 ```cmd
 ytdl -v https://www.youtube.com/watch?v=CH50zuS8DD0 -o final.mp4
 ```
+## Compiling yourself
+To compile yourself, you can use [dart compile](https://dart.dev/tools/dart-compile).<br>
+To compile to an exe file, run the following command:<br>
+`dart compile exe bin/ytdl.dart`<br>
+This will produce an exe file which can be used the same as any of the [releases](https://github.com/Thomasssb1/yt_downloader/releases#latest).
 ### Help
 To get help on running ytdl, run <br>
 ```cmd
