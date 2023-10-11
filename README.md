@@ -2,6 +2,9 @@
 Annoyed at how hard it has become to just download a youtube video? Online solutions don't work as expected or are full of ads? This repo offers an easy to use command line script which downloads a youtube video to your local device without any extra steps. <br>
 This uses an implementation of [youtube_explode_dart](https://pub.dev/packages/youtube_explode_dart) to mostly make this happen, as well as [args](https://pub.dev/packages/args) for the command line interface.
 
+### Need this on mobile?
+No worries, I have made an app version that has an easy to use interface - check it out [here](https://github.com/Thomasssb1/ytdl_app/tree/main).
+
 ## Implementation
 To get started, just download one of the [releases](https://github.com/Thomasssb1/yt_downloader/releases#latest) which includes a precompiled executable - so you do not need to have dart or any of the libraries to run this.<br>
 Once you have the release installed, you will need to add it to your path. To learn how to do so click [here](https://gist.github.com/nex3/c395b2f8fd4b02068be37c961301caa7).
