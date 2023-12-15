@@ -8,12 +8,11 @@ ArgResults? parse(
   parser.addOption('output', abbr: 'o');
   parser.addOption('type',
       allowed: ['muxed', 'video', 'audio'], defaultsTo: 'muxed');
-  parser.addFlag('help', hide: true);
+  parser.addFlag('help', abbr: 'h', hide: true);
 
   var results = parser.parse(args);
   if (results.wasParsed('help')) {
     print(parser.usage);
-    return null;
   } else if (!results.wasParsed('video')) {
     print(
         "You need to have a link to a youtube video in order to use this.\nTo do this add the option --video or -v along with the link to the youtube video.");
