@@ -7,26 +7,40 @@ downloadVideo(String id, String output, String type) async {
       "Downloading $type from youtube. The $type being downloaded is https://www.youtube.com/watch?v=$id");
   var yt = YoutubeExplode();
   var manifest = await yt.videos.streams.getManifest(id);
-  late var streamInfo;
+
+  late List<StreamInfo> streamInfo;
   if (type == 'video') {
-    streamInfo = manifest.videoOnly.sortByVideoQuality().first;
+    streamInfo = manifest.videoOnly.sortByVideoQuality();
   } else if (type == 'audio') {
-    streamInfo = manifest.audioOnly.sortByBitrate().first;
+    streamInfo = manifest.audioOnly.sortByBitrate();
   } else if (type == 'muxed') {
-    streamInfo = manifest.muxed.sortByVideoQuality().first;
+    streamInfo = manifest.muxed.sortByVideoQuality();
   }
-  var stream = yt.videos.streamsClient.get(streamInfo);
-  await File(output).create().then((File file) async {
-    ;
-    var fileStream = file.openWrite();
 
-    await stream.pipe(fileStream).whenComplete(() => print(
-        "Video download has completed. Check ${(p.isAbsolute(output) ? output : Directory.current.path + r"\" + output)}."));
+  late IOSink? fileStream;
+  try {
+    StreamInfo chosenStream =
+        streamInfo.where((e) => e.container == StreamContainer.mp4).first;
 
-    await fileStream.flush();
-    await fileStream.close();
-  });
-  yt.close();
+    var stream = yt.videos.streamsClient.get(chosenStream);
+    await File(output).create().then((File file) async {
+      ;
+      fileStream = file.openWrite();
+
+      await stream.pipe(fileStream!).whenComplete(() => print(
+          "Video download has completed. Check ${(p.isAbsolute(output) ? output : Directory.current.path + r"\" + output)}."));
+    });
+  } on StateError {
+    print("No available mp4 streams.");
+  } on FileSystemException {
+    print("Something went wrong when editing file $output");
+  } finally {
+    yt.close();
+    if (fileStream == null) {
+      await fileStream!.flush();
+      await fileStream!.close();
+    }
+  }
 }
 
 getVideoId(String video) {
