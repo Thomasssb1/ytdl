@@ -17,26 +17,25 @@ downloadVideo(String id, String output, String type) async {
     streamInfo = manifest.muxed.sortByVideoQuality();
   }
 
-  late IOSink? fileStream;
+  IOSink? fileStream;
   try {
     StreamInfo chosenStream =
         streamInfo.where((e) => e.container == StreamContainer.mp4).first;
 
     var stream = yt.videos.streamsClient.get(chosenStream);
     await File(output).create().then((File file) async {
-      ;
       fileStream = file.openWrite();
 
       await stream.pipe(fileStream!).whenComplete(() => print(
           "Video download has completed. Check ${(p.isAbsolute(output) ? output : Directory.current.path + r"\" + output)}."));
     });
   } on StateError {
-    print("No available mp4 streams.");
+    print("No available mp4 streams. Try changing your --video type.");
   } on FileSystemException {
     print("Something went wrong when editing file $output");
   } finally {
     yt.close();
-    if (fileStream == null) {
+    if (fileStream != null) {
       await fileStream!.flush();
       await fileStream!.close();
     }
